@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from streamlit_extras.stylable_container import stylable_container
 
 
 df = pd.read_csv("bank-additional-full.csv", delimiter=";")
@@ -67,7 +68,56 @@ if difficulty == "Easy":
     st.write(f"{df.shape[0]}")
 
 if difficulty == "Medium":
-    st.write("Medium")
+    st.write("What is the average duration of the last contact in seconds for customers who subscribed to the term deposit compared to those who didn't")
+
+    yes_df = df[df['y'] == 'yes']
+    no_df = df[df['y'] == 'no']
+
+    st.write(f"The average duration of the last contact in seconds for customers who subscribe to the term deposit: {round(yes_df['duration'].agg(['mean'][0]),2)} seconds")
+    st.write(f"The average duration of the last contact in seconds for customers who did not subscribe to the term deposit: {round(no_df['duration'].agg(['mean'][0]),2)} seconds")
+
+    st.write("Is there any correlation between age and duration of the last contact?")
+
+    correlation_data = df['age'].corr(df['duration'])
+
+    st.scatter_chart(data=df,x='age', y='duration')
+
+    with stylable_container(
+        key="container_with_border",
+        css_styles="""
+            {
+                border: 1px solid rgba(49, 51, 63, 0.2);
+                border-radius: 0.5rem;
+                padding: calc(1em - 1px)
+            }
+            """,
+    ):
+        st.markdown(f"The correlation between {round(correlation_data, 4)}.")
+
+    st.write("What is the distribution of campaign contacts (number of contacts performed during this campaign) among customers who subscribed to the term deposit?")
+
+    contact_counts = yes_df['campaign'].value_counts().sort_index()
+
+    # Create the bar chart
+    fig, ax = plt.subplots()
+    ax.bar(contact_counts.index, contact_counts.values)
+    ax.set_xlabel('Number of Contacts')
+    ax.set_ylabel('Number of Customers')
+    ax.set_title('Distribution of Campaign Contacts Among Customers Who Subscribed to the Term Deposit')
+
+    # Display the chart in Streamlit
+    st.pyplot(fig)
+
+
+    st.write("Which marital status category has the highest proportion of customers who subscribed to the term deposit?")
+
+    
+
+
+
+
+
+    st.write("Are there any differences in the campaign success rate between different education levels?")
 
 if difficulty == "Hard":
     st.write("Hard")
