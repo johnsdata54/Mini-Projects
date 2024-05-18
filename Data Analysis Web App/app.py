@@ -108,16 +108,38 @@ if difficulty == "Medium":
     # Display the chart in Streamlit
     st.pyplot(fig)
 
-
     st.write("Which marital status category has the highest proportion of customers who subscribed to the term deposit?")
 
+    marital_counts = yes_df['marital'].value_counts().sort_index()
     
+    fig, ax = plt.subplots()
+    ax.set_xlabel('Marital Status')
+    ax.set_ylabel('Totals of the Particular Status')
+    ax.set_title('Distribution of Marital Status')
+    ax.bar(marital_counts.index, marital_counts.values)
 
-
-
-
+    st.pyplot(fig)
 
     st.write("Are there any differences in the campaign success rate between different education levels?")
+
+    total_counts = df['education'].value_counts().sort_index()
+    education_counts = yes_df['education'].value_counts().sort_index()
+
+
+    success_rate = (education_counts/total_counts) * 100
+    success_rate = success_rate.sort_index()
+
+
+    fig, ax = plt.subplots()
+    ax.bar(success_rate.index, success_rate.values)
+    ax.set_xlabel('Education Level')
+    ax.set_ylabel('Success Rate')
+    ax.set_title('Campaign Success Rate by Education Level')
+
+    plt.xticks(rotation=45)
+    
+    st.pyplot(fig)
+
 
 if difficulty == "Hard":
     st.write("Hard")
