@@ -68,7 +68,7 @@ if difficulty == "Easy":
     st.write(f"{df.shape[0]}")
 
 if difficulty == "Medium":
-    st.write("What is the average duration of the last contact in seconds for customers who subscribed to the term deposit compared to those who didn't")
+    st.header("What is the average duration of the last contact in seconds for customers who subscribed to the term deposit compared to those who didn't")
 
     yes_df = df[df['y'] == 'yes']
     no_df = df[df['y'] == 'no']
@@ -76,7 +76,7 @@ if difficulty == "Medium":
     st.write(f"The average duration of the last contact in seconds for customers who subscribe to the term deposit: {round(yes_df['duration'].agg(['mean'][0]),2)} seconds")
     st.write(f"The average duration of the last contact in seconds for customers who did not subscribe to the term deposit: {round(no_df['duration'].agg(['mean'][0]),2)} seconds")
 
-    st.write("Is there any correlation between age and duration of the last contact?")
+    st.header("Is there any correlation between age and duration of the last contact?")
 
     correlation_data = df['age'].corr(df['duration'])
 
@@ -94,7 +94,7 @@ if difficulty == "Medium":
     ):
         st.markdown(f"The correlation between {round(correlation_data, 4)}.")
 
-    st.write("What is the distribution of campaign contacts (number of contacts performed during this campaign) among customers who subscribed to the term deposit?")
+    st.header("What is the distribution of campaign contacts (number of contacts performed during this campaign) among customers who subscribed to the term deposit?")
 
     contact_counts = yes_df['campaign'].value_counts().sort_index()
 
@@ -108,7 +108,7 @@ if difficulty == "Medium":
     # Display the chart in Streamlit
     st.pyplot(fig)
 
-    st.write("Which marital status category has the highest proportion of customers who subscribed to the term deposit?")
+    st.header("Which marital status category has the highest proportion of customers who subscribed to the term deposit?")
 
     marital_counts = yes_df['marital'].value_counts().sort_index()
     
@@ -120,7 +120,7 @@ if difficulty == "Medium":
 
     st.pyplot(fig)
 
-    st.write("Are there any differences in the campaign success rate between different education levels?")
+    st.header("Are there any differences in the campaign success rate between different education levels?")
 
     total_counts = df['education'].value_counts().sort_index()
     education_counts = yes_df['education'].value_counts().sort_index()
@@ -143,5 +143,6 @@ if difficulty == "Medium":
 
 if difficulty == "Hard":
     st.write("Hard")
-
+    st.header("Can you identify any patterns or trends in the relationship between age and subscription to the term deposit?")
+    
 
